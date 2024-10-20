@@ -1,10 +1,21 @@
 import sqlite3
 import json
-
+import sys
+from pathlib import Path
 
 
 def main():
-    conn = sqlite3.Connection("./com.plexapp.plugins.library.db")
+
+
+    try:
+        path = Path(sys.argv[1])
+    except IndexError:
+        path = Path("./com.plexapp.plugins.library.db")
+    if not path.is_file():
+        raise FileNotFoundError("Tried to default to current directory and file was not found")
+
+
+    conn = sqlite3.Connection(path)
 
     playlists_metadata = conn.execute("SELECT title FROM metadata_items where metadata_type = 15;")
     playlists = sorted([playlist[0] for playlist in playlists_metadata.fetchall()])
