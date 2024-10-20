@@ -12,7 +12,7 @@ def main():
     except IndexError:
         path = Path("./com.plexapp.plugins.library.db")
     if not path.is_file():
-        raise FileNotFoundError("Tried to default to current directory and file was not found")
+        raise FileNotFoundError(f"Tried to open library.db in {path.absolute()} file was not found")
 
 
     conn = sqlite3.Connection(path)
